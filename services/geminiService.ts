@@ -30,10 +30,16 @@ const turnResponseSchema: Schema = {
         properties: {
           agentId: { type: Type.STRING, description: "A placeholder ID like 'agent-X' or a description of the archetype (e.g. 'Wealthy Waterfront Conservative')." },
           name: { type: Type.STRING },
-          thought: { type: Type.STRING, description: "Chain-of-thought reasoning." },
+          thought: { type: Type.STRING, description: "A punchy, one-sentence summary of their reaction." },
+          reasoning: { 
+            type: Type.ARRAY, 
+            description: "4-step chain of thought: 1. Perception of event, 2. Memory/Values recall, 3. Evaluation of impact, 4. Decision.",
+            items: { type: Type.STRING } 
+          },
           action: { type: Type.STRING, description: "Specific action taken (e.g., 'Started a protest', 'Bought gold')." },
+          fullStory: { type: Type.STRING, description: "A short, engaging newspaper-style snippet (30-50 words) detailing the agent's background, current situation, and how the event personally affected them." },
         },
-        required: ["name", "thought", "action"],
+        required: ["name", "thought", "reasoning", "action", "fullStory"],
       },
     },
     globalModifiers: {
@@ -74,11 +80,14 @@ export const simulateTurn = async (
     
     Task:
     1. Analyze the impact of the user's action on the city. Consider economic theories, sociology, and political science.
-    2. Determine 5 distinct agent reactions representing different demographics (e.g., Low Income vs Wealthy, Liberal vs Conservative).
+    2. Determine 5 distinct agent reactions representing different demographics (e.g., Low Income vs Wealthy, Liberal vs Conservative). 
+       For each agent, generate:
+       - A "Full Story" snippet that gives depth to their background and situation.
+       - A "Reasoning" chain (array of strings) explicitly showing: Perception -> Recall (Memory/Values) -> Evaluation -> Decision.
     3. Calculate new city metrics. 
        - Win Condition: Approval > 70% after 10 turns.
        - Lose Condition: Approval < 30%.
-    4. Provide global modifiers to update the 100 simulation agents programmatically (e.g., if tax rises, wealthDelta might be negative).
+    4. Provide global modifiers to update the 100 simulation agents programmatically.
     
     Constraints:
     - Keep narrative immersive and concise (max 3 sentences).

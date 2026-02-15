@@ -1,3 +1,4 @@
+
 export enum Neighborhood {
   Downtown = 'Downtown',
   Suburbs = 'Suburbs',
@@ -50,7 +51,9 @@ export interface TurnResult {
     agentId: string; // Refers to an agent in our array (we will match by closest archetype if exact ID not found, or generate new thought)
     name: string;
     thought: string;
+    reasoning: string[]; // Step-by-step chain of thought
     action: string;
+    fullStory: string;
   }[];
   globalModifiers: {
     happinessDelta: number;
