@@ -1,0 +1,5 @@
+{
+  "name": "Neo Haven: AI City Simulator",
+  "description": "An advanced agent-based city simulator where you play as Mayor. 100 unique AI agents react to your policies and events in real-time.",
+  "requestFramePermissions": []
+}
